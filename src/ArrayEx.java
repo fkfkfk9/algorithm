@@ -1,15 +1,22 @@
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class ArrayEx {
     public static void main(String[] args) {
         /* 넘어온 배열에 중복되는 숫자가 있다면 ture, 없다면 false */
         boolean result = arrayDuplicateCheckNum(new int[]{1, 2, 3, 4, 5, 3, 7});
+        boolean result2 = arrayDuplicateCheckNum2(new int[]{1, 2, 3, 4, 5, 3, 7});
+        boolean result3 = arrayDuplicateCheckNum2(new int[]{1, 2, 3, 4, 5, 3, 7});
 
-        if(result){
+        if(result3){
             System.out.println("중복된 숫자가 있습니다.");
         }else{
             System.out.println("중복된 숫자가 없습니다.");
         }
+
+        System.out.println(swapString("Hello World".toCharArray()));
+        System.out.println(swapString2("Apple".toCharArray()));
     }
 
     /*
@@ -41,5 +48,45 @@ public class ArrayEx {
         }
 
         return false;
+    }
+
+    /*
+      Set을 사용한다. Set의 경우 해시값으로 조회하기 때문에 공간복잡도가 O(1)이다.
+      또 중복된값을 허용하지 않는다.
+      같은 값이 있는지 확인하는 메서드 contains를 사용한다.
+      한번 반복하기 때문에 시간복잡도는 O(N)이고, HashSet를 생성하기 때문에 공간복잡도 또한 O(N)이다.
+     * */
+    private static boolean arrayDuplicateCheckNum3(int[] numArr){
+        Set<Integer> numSet = new HashSet<>();
+        for (int num: numArr ) {
+            if(numSet.contains(num)){
+                return true;
+            }else{
+                numSet.add(num);
+            }
+        }
+        return false;
+    }
+
+    //한번 반복하기 때문에 시간복잡도는 O(N), 리턴할 배열을 하나 만들기 때문에 공간복잡도 또한 O(N)이다.
+    private static char[] swapString(char[] charArr){
+        char[] result = new char[charArr.length];
+
+        for (int i = charArr.length-1; i >= 0; i--) {
+            result[charArr.length - 1 -i] += charArr[i];
+        }
+
+        return result;
+    }
+
+    //여전히 반복하기 때문에 시간복잡도는 그대로지만 추가 배열을 만들지 않아 공간복잡도가 O(1)이다.
+    private static char[] swapString2(char[] charArr){
+        for (int i = 0; i < charArr.length/2; i++) {
+            char temp = charArr[i];
+            charArr[i] = charArr[charArr.length - 1 - i];
+            charArr[charArr.length - 1 - i] = temp;
+        }
+
+        return charArr;
     }
 }
