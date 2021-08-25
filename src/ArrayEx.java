@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -15,8 +16,12 @@ public class ArrayEx {
             System.out.println("중복된 숫자가 없습니다.");
         }
 
+        // char형 배열을 역순으로 리턴
         System.out.println(swapString("Hello World".toCharArray()));
         System.out.println(swapString2("Apple".toCharArray()));
+
+        //숫자배열과 타겟숫자를 넘겨 배열에서 2개를 더해 타겟숫자와 같아지는 인덱스를 리턴해준다.
+        System.out.println(Arrays.toString(arrayTwoSumTarget(new int[]{2,3,5,7}, 9)));
     }
 
     /*
@@ -89,4 +94,42 @@ public class ArrayEx {
 
         return charArr;
     }
+
+    /*
+    * 가장 단순한 방법 나도 이렇게 풀었다.
+    * 시간복잡도는 반복문이 중첩됨으로 O(n제곱)이고 공간복잡도는 2개짜리 배열하나만 있으면 되므로 O(1)이다.
+    * */
+    private static int[] arrayTwoSumTarget(int[] numArr, int target){
+        for (int i = 0; i < numArr.length-1; i++) {
+            for (int j = i+1; j < numArr.length; j++) {
+                if(numArr[i] + numArr[j] == target){
+                    return new int[]{i, j};
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /*
+     * 가장 단순한 방법 나도 이렇게 풀었다.
+     * 시간복잡도는 반복문이 중첩됨으로 O(n제곱)이고 공간복잡도는 2개짜리 배열하나만 있으면 되므로 O(1)이다.
+     * */
+    private static int[] arrayTwoSumTarget2(int[] numArr, int target){
+        Map<Integer, Integer> numMap = new HashMap<Integer, Integer>();
+
+        for (int i = 0; i < numArr.length-1; i++) {
+            numMap.put(numArr[i], i);
+        }
+
+        for (int i = 0; i < numArr.length-1; i++) {
+            int result = target - numArr[i];
+            if(numMap.containsKey(result) && numMap.get(result) != i){
+                return new int[]{i, j};
+            }
+        }
+
+        return null;
+    }
+
 }
