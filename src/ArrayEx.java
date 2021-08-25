@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class ArrayEx {
     public static void main(String[] args) {
@@ -22,6 +19,9 @@ public class ArrayEx {
 
         //숫자배열과 타겟숫자를 넘겨 배열에서 2개를 더해 타겟숫자와 같아지는 인덱스를 리턴해준다.
         System.out.println(Arrays.toString(arrayTwoSumTarget(new int[]{2,3,5,7}, 9)));
+        System.out.println(Arrays.toString(arrayTwoSumTarget2(new int[]{2,3,5,7}, 9)));
+        //숫자배열에서 3개를 더하여 target값이 나오는 인덱스를 리턴해주면 된다.
+        System.out.println(Arrays.toString(arrayTwoSumTarget3(new int[]{2,3,5,7}, 10)));
     }
 
     /*
@@ -112,21 +112,41 @@ public class ArrayEx {
     }
 
     /*
-     * 가장 단순한 방법 나도 이렇게 풀었다.
-     * 시간복잡도는 반복문이 중첩됨으로 O(n제곱)이고 공간복잡도는 2개짜리 배열하나만 있으면 되므로 O(1)이다.
+     * HashMap을 활용한다.
+     * 시간복잡도는 반복문이 1번이므로 O(n)이다. 공간복잡도는 맵을 생성했으므로 O(n)이된다.
      * */
     private static int[] arrayTwoSumTarget2(int[] numArr, int target){
-        Map<Integer, Integer> numMap = new HashMap<Integer, Integer>();
+        Map<Integer, Integer> numMap = new HashMap<>();
 
-        for (int i = 0; i < numArr.length-1; i++) {
+        for (int i = 0; i < numArr.length; i++) {
+            int result = target - numArr[i];
+            if(numMap.containsKey(result) && numMap.get(result) != i){
+                return new int[]{i, numMap.get(result)};
+            }
+
             numMap.put(numArr[i], i);
         }
 
-        for (int i = 0; i < numArr.length-1; i++) {
+        return null;
+    }
+
+    /*
+     * HashMap과 중첩 반복문을 모두 사용하였다.
+     * 시간복잡도는 반복문이 2번이므로 O(n제곱)이다. 공간복잡도는 맵을 생성했으므로 O(n)이된다.
+     * */
+    private static int[] arrayTwoSumTarget3(int[] numArr, int target){
+        Map<Integer, Integer> numMap = new HashMap<>();
+
+        for (int i = 0; i < numArr.length; i++) {
             int result = target - numArr[i];
-            if(numMap.containsKey(result) && numMap.get(result) != i){
-                return new int[]{i, j};
+            for (int j = i+1; j < numArr.length; j++) {
+                int result2 = result - numArr[j];
+
+                if(numMap.containsKey(result2) && numMap.get(result2) != j && numMap.get(result2) != i){
+                    return new int[]{i, j, numMap.get(result2)};
+                }
             }
+            numMap.put(numArr[i], i);
         }
 
         return null;
