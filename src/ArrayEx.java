@@ -22,6 +22,8 @@ public class ArrayEx {
         System.out.println(Arrays.toString(arrayTwoSumTarget2(new int[]{2,3,5,7}, 9)));
         //숫자배열에서 3개를 더하여 target값이 나오는 인덱스를 리턴해주면 된다.
         System.out.println(Arrays.toString(arrayTwoSumTarget3(new int[]{2,3,5,7}, 10)));
+        // 1~100까지의 숫자중 50개가 들어있는 배열을 정렬하되 시간복잡도를 O(n)으로 처리하라
+        System.out.println(Arrays.toString(arrayIndexSort(new int[]{23,13,55,7})));
     }
 
     /*
@@ -150,6 +152,30 @@ public class ArrayEx {
         }
 
         return null;
+    }
+
+    /*
+     * 배열의 인덱스를 활용한다.
+     * 반복문이 중첩되지 않기 때문에 O(n)이다.
+     * 공간복잡도는 100까지로 숫자가 고정되어있어 O(1)이다.
+     * */
+    private static int[] arrayIndexSort(int[] numArr){
+        //범위가 1~100까지기 때문에 100개의 크기 배열을 만든다.
+        boolean[] boolArr = new boolean[100];
+
+        //반복문을 돌며 배열에 있는 숫자를 인덱스로넣어주고 true로 변견한다.
+        //이는 문제가 1~100사이의 50개를 지정해주어서이다. 만약 중복된 숫자가 나온다면 불가능하다.
+        for (int num: numArr) {
+            boolArr[num] = true;
+        }
+
+        int idx = 0;
+        for (int i = 0; i < boolArr.length; i++) {
+            if(boolArr[i]){
+                numArr[idx++] = i;
+            }
+        }
+        return numArr;
     }
 
 }
