@@ -16,6 +16,11 @@ public class ListEx {
         list.print();
         list.reverse2();
         list.print();
+
+        LinkedNode node = list.findFromLast(2);
+        LinkedNode node2 = list.findFromLast2(2);
+        System.out.println("findFromLast Result : " + node.number);
+        System.out.println("findFromLast2 Result : " + node2.number);
     }
 
     private void print(){
@@ -74,5 +79,46 @@ public class ListEx {
         node.next = null;
 
         return newHwad;
+    }
+
+    /*
+    * 링크드 리스트에서 뒤에서 n번째 값을 가져온다.
+    * O(n)의 방식으로 하기 위해 HashMap을 사용한다.
+    * HashMap과 HashTable는 ArrayList와 Vector의 차이와 같다.
+    * LinkedList는 크기를 알려면 한번 순회를 해주어야 한다는 단점이 있다.
+    * */
+    private LinkedNode findFromLast(int n){
+        Map<Integer, LinkedNode> nodeMap = new HashMap<>();
+        int idx = 0;
+        LinkedNode current = this.head;
+
+        while(current != null){
+            nodeMap.put(idx++, current);
+            current = current.next;
+        }
+
+        return nodeMap.get(nodeMap.size() - n);
+    }
+
+    //순회를 하여 O(2n)의 방식으로 한다.
+    //순회를 함으로써 2n이 되면 여전히 O(n)이고 공간복잡도가 O(1)이 된다.
+    private LinkedNode findFromLast2(int n){
+        LinkedNode current = this.head;
+        int length = 0;
+
+        while(current != null){
+            length++;
+            current = current.next;
+        }
+
+        int targetIdx = length - n;
+        LinkedNode target = this.head;
+
+        while(targetIdx > 0){
+            targetIdx--;
+            target = target.next;
+        }
+
+        return target;
     }
 }
