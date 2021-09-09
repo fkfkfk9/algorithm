@@ -10,6 +10,8 @@ public class ListEx {
         list.add(new LinkedNode(1));
         list.add(new LinkedNode(2));
         list.add(new LinkedNode(3));
+        list.add(new LinkedNode(7));
+        list.add(new LinkedNode(8));
 
         list.print();
         list.reverse();
@@ -19,8 +21,21 @@ public class ListEx {
 
         LinkedNode node = list.findFromLast(2);
         LinkedNode node2 = list.findFromLast2(2);
+        LinkedNode node3 = list.findFromLast3(2);
         System.out.println("findFromLast Result : " + node.number);
         System.out.println("findFromLast2 Result : " + node2.number);
+        System.out.println("findFromLast3 Result : " + node3.number);
+
+        ListEx list2 = new ListEx();
+        list2.add(new LinkedNode(2));
+        list2.add(new LinkedNode(2));
+        list2.add(new LinkedNode(2));
+        list2.add(new LinkedNode(3));
+        list2.add(new LinkedNode(4));
+
+        list2.print();
+        list2.removeDuplicates();
+        list2.print();
     }
 
     private void print(){
@@ -120,5 +135,58 @@ public class ListEx {
         }
 
         return target;
+    }
+
+    //순회를 한번만 하여 O(n)의 방식으로 한다.
+    //순회를 할 때 오른쪽 좌표 왼쪽 좌표를 두고 해당 좌표 사이를
+    // n으로하여 오른쪽 끝에 도달할때 왼쪽 좌표가 리턴할 노드이다.
+    private LinkedNode findFromLast3(int n){
+        LinkedNode rightNode = this.head;
+        LinkedNode leftNode = this.head;
+        int length = 0;
+
+        while(rightNode != null){
+            length++;
+            rightNode = rightNode.next;
+            if(length > n){
+                leftNode = leftNode.next;
+            }
+        }
+
+        return leftNode;
+    }
+
+    /*
+    * 링크드 리스트에서 중복되는 노드를 제거
+    * */
+    private void removeDuplicates(){
+        LinkedNode current = this.head;
+        while (current != null){
+            LinkedNode next = current;
+            while(next != null && next.number == current.number){
+                next = next.next;
+            }
+
+            current.next = next;
+            current = current.next;
+        }
+    }
+
+    private void removeDuplicates2(){
+        LinkedNode current = this.head;
+        LinkedNode prev = this.head;
+
+        while (current != null){
+            if(current.number != prev.number){
+                prev.next = current;
+                prev = current;
+            }
+
+            current = current.next;
+        }
+
+        if(prev != current){
+            prev.next = null;
+        }
     }
 }
