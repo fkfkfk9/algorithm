@@ -34,7 +34,10 @@ public class ListEx {
         list2.add(new LinkedNode(4));
 
         list2.print();
-        list2.removeDuplicates();
+        //list2.removeDuplicates();
+        //list2.removeDuplicates2();
+        //list2.removeDuplicates3();
+        list2.removeDuplicates4();
         list2.print();
     }
 
@@ -187,6 +190,47 @@ public class ListEx {
 
         if(prev != current){
             prev.next = null;
+        }
+    }
+
+    private void removeDuplicates3(){
+        removeDuplicatesRecursive(this.head);
+    }
+
+    private LinkedNode removeDuplicatesRecursive(LinkedNode node){
+        if(node == null){
+            return null;
+        }
+
+        if(node.next != null){
+            if(node.number == node.next.number){
+                node.next = node.next.next;
+                removeDuplicatesRecursive(node);
+            }else{
+                removeDuplicatesRecursive(node.next);
+            }
+        }
+
+        return node;
+    }
+
+    // 리스트에 정렬된 숫자가 들어왔다면 앞선 방법대로 뒤에 노드와 비교해가며 구할 수 있지만
+    // 정렬되지 않았다면 단순히 앞뒤의 노드의 비교로는 알 수 없으므로 중복을 허용하지 않는 Set을 사용한다.
+    private void removeDuplicates4(){
+        Set<Integer> numSet = new HashSet<>();
+
+        LinkedNode current = this.head;
+        LinkedNode prev = null;
+
+        while (current != null){
+            int currentNum = current.number;
+            if(numSet.contains(currentNum)){
+                prev.next = current.next;
+            }else{
+                numSet.add(currentNum);
+                prev = current;
+            }
+            current = current.next;
         }
     }
 }
