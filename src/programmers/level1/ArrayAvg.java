@@ -12,6 +12,14 @@ public class ArrayAvg {
         System.out.println(aa.intArrayAvg(numArr2));
     }
 
+
+
+
+    /**
+     * 배열로 넘어온 정수의 평균을 구하여 리턴해준다.
+     * @param arr
+     * @return double
+     */
     public double intArrayAvg(int[] arr) {
         return Arrays.stream(arr).average().getAsDouble();
     }
